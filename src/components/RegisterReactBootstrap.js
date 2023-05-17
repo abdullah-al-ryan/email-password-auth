@@ -1,14 +1,27 @@
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import app from '../firebase/firebase.init';
+
+const auth = getAuth(app);
 
 const RegisterReactBootstrap = () => {
 
     const handleRegister = event => {
         event.preventDefault();
-        const email = console.log(event.target.email.value);
-        const password = console.log(event.target.password.value);
+        const email = event.target.email.value;
+        const password = event.target.password.value;
         console.log(email, password);
+        
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(error => {
+                console.error('error', error);
+            })
     }
     return (
         <div className='w-50 mx-auto'>
